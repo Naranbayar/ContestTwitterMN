@@ -3,7 +3,6 @@
 
 from django import http
 #import tweepy
-#import json 
 import feedparser
 from datetime import datetime
 
