@@ -6,14 +6,10 @@ threadsafe: true
 
 handlers:
 - url: .*
-  script: myproject.wsgi.application
+  script: ContestTweets.wsgi.application
 
 libraries:
 - name: django
   version: 1.5
-- name: webapp2
-  version: latest
-- name: jinja2
-  version: latest
 - name: ssl
   version: latest
