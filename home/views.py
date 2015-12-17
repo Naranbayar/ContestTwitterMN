@@ -1,40 +1,54 @@
 import json
-
 from datetime import datetime
-from django import http
+
+from django.conf import settings
+from django.shortcuts import render
+
 from lib import feedparser
 from twitter import Twitter, OAuth
 
 
 def home(request):
-	t = Twitter(auth=OAuth("3219043802-lbrCq80T6NMW5iesaz7rYr7gyWBF1uatbHhBqPM",
-							"BXlVJAHXMdfSPeqMYFh0toPinCh4D4SJcnMpvv1CmIAZe",
-							"0I87DLCvIvIs8r6fD3iiYaWQv",
-							"FExCvaLZHdHMmtudeFJzgCIf7z94AZG7Zh0gJru3gQDaYlqgcQ"))
+    utcnow = datetime.utcnow()
+    datetime_format = '%Y-%m-%d %H:%M:%S UTC'
+    hackerrank_url = 'http://www.hackerrank.com/calendar/feed.rss'
 
-	# Get your "home" timeline
-	public_tweets = t.statuses.user_timeline(screen_name="NaranbayarU",count=5)
-	# t.statuses.update(status="First tweet from twitter library")
-	tweets = "<h2>My last 5 tweets</h2><ul>"
-	for tweet in public_tweets:
-		tweets += '<li><a href="https://twitter.com/NaranbayarU/status/' + tweet['id_str'] + '">' + tweet['text'] + '</a></li>'
-	tweets += '</ul>'
+    # Tweets
+    twitter = Twitter(auth=OAuth(settings.TOKEN,
+                                 settings.TOKEN_KEY,
+                                 settings.SECRET,
+                                 settings.SECRET_KEY))
 
-	msj = '<center><h1>Tweet about upcoming programming contests from hackerrank calendar. Coming Soon!!!</h1></center>'
-	rss_url = "http://www.hackerrank.com/calendar/feed.rss"
-	feeds = feedparser.parse( rss_url )
-	nowDate = datetime.utcnow()
-	s = "<h2>Current time is : " + nowDate.strftime("%Y-%m-%d %H:%M:%S UTC") + "</h2><br>"
+    tweets = twitter.statuses.user_timeline(screen_name='NaranbayarU', count=5)
 
-	upcoming = "<h3>Upcoming Contests</h3><table>" + "<tr><th>Contest Title</th><th>Start Date</th><th>End Date</th></tr>"
-	active = "<h3>Active Contests</h3><table>" + "<tr><th>Contest Title</th><th>Start Date</th><th>End Date</th></tr>"
-	for feed in reversed(feeds['entries']):
-		if datetime.strptime(feed['starttime'],"%Y-%m-%d %H:%M:%S UTC") > nowDate:
-			upcoming += '<tr><td><a href = "' + feed['url'] + '">' + feed['title'] + '</a></td><td>' + feed['starttime'] + '</td><td>' + feed['endtime'] + '</td></tr>'
-		if datetime.strptime(feed['starttime'],"%Y-%m-%d %H:%M:%S UTC") <= nowDate and datetime.strptime(feed['endtime'],"%Y-%m-%d %H:%M:%S UTC") >= nowDate:
- 			active += '<tr><td><a href = "' + feed['url'] + '">' + feed['title'] + '</a></td><td>' + feed['starttime'] + '</td><td>' + feed['endtime'] + '</td></tr>'
-	upcoming += "</table>"
-	active += "</table>"
-	s = s + active + upcoming + tweets + msj
+    # Contests
+    active_contests, upcoming_contests = [], []
+    feeds = feedparser.parse(hackerrank_url)
+    for feed in reversed(feeds['entries']):
+        start_time = datetime.strptime(feed['starttime'], datetime_format)
+        end_time = datetime.strptime(feed['endtime'], datetime_format)
 
-	return http.HttpResponse(s)
+        # Active contests
+        if start_time <= utcnow <= end_time:
+            active_contests.append({
+                'url': feed['url'],
+                'title': feed['title'],
+                'start_time': feed['starttime'],
+                'end_time': feed['endtime'],
+            })
+
+        # Upcoming contests
+        if start_time > utcnow:
+            upcoming_contests.append({
+                'url': feed['url'],
+                'title': feed['title'],
+                'start_time': feed['starttime'],
+                'end_time': feed['endtime'],
+            })
+
+    return render(request, 'index.html', {
+        'current_time': utcnow.strftime('%Y-%m-%d %H:%M:%S UTC'),
+        'active_contests': active_contests,
+        'upcoming_contests': upcoming_contests,
+        'tweets': tweets,
+    })

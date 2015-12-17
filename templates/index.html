@@ -1,0 +1,50 @@
+<html>
+  <body>
+    <h2>Current time is: {{ current_time }}</h2>
+    <h3>Active Contests</h3>
+    <table>
+      <tr>
+        <th>Contest Title</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+      {% for contest in active_contests %}
+      <tr>
+        <td><a href="{{ contest.url }}">{{ contest.title }}</a></td>
+        <td>{{ contest.start_time }}</td>
+        <td>{{ contest.end_time }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <h3>Upcoming Contests</h3>
+    <table>
+      <tr>
+        <th>Contest Title</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+      {% for contest in upcoming_contests %}
+      <tr>
+        <td><a href="{{ contest.url }}">{{ contest.title }}</a></td>
+        <td>{{ contest.start_time }}</td>
+        <td>{{ contest.end_time }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <h2>My last 5 tweets</h2>
+    <ul>
+      {% for tweet in tweets %}
+      <li>
+        <a href="https://twitter.com/NaranbayarU/status/{{ tweet.id_str }}">
+          {{ tweet.text }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <center>
+      <h1>
+        Tweet about upcoming programming contests from hackerrank calendar. Coming Soon!!!
+      </h1>
+    </center>
+  </body>
+</html>
