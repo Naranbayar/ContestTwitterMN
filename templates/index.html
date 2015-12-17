@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table class='table table-striped table-hover'>
+  <caption>
+    Active Contests
+    <div class='pull-right'>
+      <span class="glyphicon glyphicon-time"></span>
+      {{ current_time }}
+    </div>
+  </caption>
+
+  <tr>
+    <th>Contest Title</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+  </tr>
+  {% for contest in active_contests %}
+  <tr>
+    <td><a href="{{ contest.url }}">{{ contest.title }}</a></td>
+    <td>{{ contest.start_time }}</td>
+    <td>{{ contest.end_time }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<table class='table table-striped table-hover'>
+  <caption>Upcoming Contests</caption>
+  <tr>
+    <th>Contest Title</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+  </tr>
+  {% for contest in upcoming_contests %}
+  <tr>
+    <td><a href="{{ contest.url }}">{{ contest.title }}</a></td>
+    <td>{{ contest.start_time }}</td>
+    <td>{{ contest.end_time }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>My last 5 tweets</h2>
+<ul>
+  {% for tweet in tweets %}
+  <li>
+    <a href="https://twitter.com/NaranbayarU/status/{{ tweet.id_str }}">
+      {{ tweet.text }}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+<div class="well text-center">Tweet about upcoming programming contests from hackerrank calendar. Coming Soon!!!</div>
+{% endblock %}
