@@ -21,5 +21,5 @@ manage.py test
 ### Upload
 
 ```sh
-appcfg.py -A contestmn update ContestTwitterMN/
+appcfg.py -A contestmn update .
 ```
