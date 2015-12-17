@@ -2,25 +2,12 @@
 # dev_appserver.py ContestTwitterMN/
 
 from django import http
-# import tweepy
 import feedparser
 from datetime import datetime
 from twitter import *
 import json
 
 def home(request):
-	# auth = tweepy.OAuthHandler("0I87DLCvIvIs8r6fD3iiYaWQv", "FExCvaLZHdHMmtudeFJzgCIf7z94AZG7Zh0gJru3gQDaYlqgcQ")
-	# auth.set_access_token("3219043802-lbrCq80T6NMW5iesaz7rYr7gyWBF1uatbHhBqPM", "BXlVJAHXMdfSPeqMYFh0toPinCh4D4SJcnMpvv1CmIAZe")
-
-	# api = tweepy.API(auth)
-
-	# public_tweets = api.home_timeline()
-
-	# tweets = ""
-	# for tweet in public_tweets:
-	# 	tweets = tweets + tweet.text
-
-	# api.update_status(status="Hello World!!! It's first tweet from my django app test")
 	t = Twitter(auth=OAuth("3219043802-lbrCq80T6NMW5iesaz7rYr7gyWBF1uatbHhBqPM", 
 							"BXlVJAHXMdfSPeqMYFh0toPinCh4D4SJcnMpvv1CmIAZe", 
 							"0I87DLCvIvIs8r6fD3iiYaWQv", 
@@ -40,13 +27,15 @@ def home(request):
 	nowDate = datetime.utcnow()
 	s = "<h2>Current time is : " + nowDate.strftime("%Y-%m-%d %H:%M:%S UTC") + "</h2><br>"
 
-	t = "<table>" + "<tr><th>Contest Title</th><th>Start Date</th><th>End Date</th></tr>"
+	upcoming = "<h3>Upcoming Contests</h3><table>" + "<tr><th>Contest Title</th><th>Start Date</th><th>End Date</th></tr>"
+	active = "<h3>Active Contests</h3><table>" + "<tr><th>Contest Title</th><th>Start Date</th><th>End Date</th></tr>"
 	for feed in reversed(feeds['entries']):
 		if datetime.strptime(feed['starttime'],"%Y-%m-%d %H:%M:%S UTC") > nowDate:
-			# api.update_status(feed['title'] + " will begin soooon")
-			# break
-			t += '<tr><td><a href = "' + feed['url'] + '">' + feed['title'] + '</a></td><td>' + feed['starttime'] + '</td><td>' + feed['endtime'] + '</td></tr>'
-	t += "</table>"
-	s = s + t + tweets + msj
+			upcoming += '<tr><td><a href = "' + feed['url'] + '">' + feed['title'] + '</a></td><td>' + feed['starttime'] + '</td><td>' + feed['endtime'] + '</td></tr>'
+		if datetime.strptime(feed['starttime'],"%Y-%m-%d %H:%M:%S UTC") <= nowDate and datetime.strptime(feed['endtime'],"%Y-%m-%d %H:%M:%S UTC") >= nowDate:
+ 			active += '<tr><td><a href = "' + feed['url'] + '">' + feed['title'] + '</a></td><td>' + feed['starttime'] + '</td><td>' + feed['endtime'] + '</td></tr>'
+	upcoming += "</table>"
+	active += "</table>"
+	s = s + active + upcoming + tweets + msj
 
 	return http.HttpResponse(s)
