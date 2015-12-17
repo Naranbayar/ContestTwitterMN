@@ -1,0 +1,4 @@
+TOKEN = ''
+TOKEN_KEY = ''
+CON_SECRET = ''
+CON_SECRET_KEY = ''

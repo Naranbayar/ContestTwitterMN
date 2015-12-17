@@ -1,4 +1,6 @@
 # Django settings for ContestTweets project.
+import os
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -108,9 +110,7 @@ ROOT_URLCONF = 'ContestTweets.urls'
 WSGI_APPLICATION = 'ContestTweets.wsgi.application'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    os.path.abspath('templates')
 )
 
 INSTALLED_APPS = (
@@ -145,3 +145,9 @@ LOGGING = {
         },
     }
 }
+
+# Import local settings.
+try:
+    from local_settings import *
+except ImportError:
+    pass
