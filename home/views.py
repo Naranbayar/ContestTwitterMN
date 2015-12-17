@@ -52,3 +52,9 @@ def home(request):
         'upcoming_contests': upcoming_contests,
         'tweets': tweets,
     })
+
+
+def page(request):
+    return render(request, 'page.html', {
+        'data': 'Bla-Bla',
+    })
