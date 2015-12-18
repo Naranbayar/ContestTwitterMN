@@ -1,0 +1,7 @@
+cron:
+- description: tweet every morning
+  url: /tweetMorning
+  schedule: every day 00:00
+- description: tweet every evening
+  url: /tweetEvening
+  schedule: every day 16:00
