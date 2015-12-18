@@ -1,4 +1,0 @@
-TOKEN = ''
-TOKEN_KEY = ''
-SECRET = ''
-SECRET_KEY = ''
