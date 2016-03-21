@@ -5,3 +5,6 @@ cron:
 - description: tweet every evening
   url: /tweetEvening
   schedule: every day 16:00
+- description: tweet always
+  url: /tweetAlways
+  schedule: every 147 mins

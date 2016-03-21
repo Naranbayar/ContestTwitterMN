@@ -14,12 +14,14 @@
     <th>Contest Title</th>
     <th>Start Date</th>
     <th>End Date</th>
+    <th>End Time Left</th>
   </tr>
   {% for contest in active_contests %}
   <tr>
     <td><a href="{{ contest.url }}">{{ contest.title }}</a></td>
     <td>{{ contest.start_time }}</td>
     <td>{{ contest.end_time }}</td>
+    <td>{{ contest.end_time_left }}</td>
   </tr>
   {% endfor %}
 </table>
@@ -30,12 +32,14 @@
     <th>Contest Title</th>
     <th>Start Date</th>
     <th>End Date</th>
+    <th>Start Time Left</th>
   </tr>
   {% for contest in upcoming_contests %}
   <tr>
     <td><a href="{{ contest.url }}">{{ contest.title }}</a></td>
     <td>{{ contest.start_time }}</td>
     <td>{{ contest.end_time }}</td>
+    <td>{{ contest.start_time_left }}</td>
   </tr>
   {% endfor %}
 </table>
