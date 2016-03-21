@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{{ block.super}}
+	{% if data != '' %}
+	<div class="alert alert-success">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<strong>{{data}}!</strong>
+	</div>
+	{% else %}
+	    data is not defined
+	{% endif %}
+
+	<form action="/add_contest">
+		<input type="text" name="title"><br>
+		<select name = "contest_type">
+			<option value = "1">Online</option>
+			<option value = "2">Onsite</option>
+		</select><br>
+
+		<input name="startDate" class="form-control form-control-inline date-picker" type="text">
+		<input name="endDate" class="form-control form-control-inline date-picker" type="text">
+		<input type="text" name="detail"><br>
+		
+		<button type="submit">Хадгалах</button>
+	</form>
+
+	<script src="{{ STATIC_URL }}js/picker.js">
+		
+	</script>
+{% endblock %}

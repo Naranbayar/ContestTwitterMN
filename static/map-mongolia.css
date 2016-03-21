@@ -1,0 +1,32 @@
+.mapMenu{
+	text-align:center;
+	z-index: 99999;
+	width: 980px;
+	background:#FFFFFF;
+	margin-top:-5px;
+	margin-bottom:-5px;
+	padding:15px 0;
+	}
+path{
+	cursor: pointer;
+	}
+path:hover{
+	fill:#333333;
+}
+#mapLabel{
+	z-index: 99999;
+	position: absolute;
+	background:#0000FF;
+	color:#fff;
+	padding:5px 0;
+	font-size:12px;
+	width:100px;
+	text-align:center;
+	display: none;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+.mapUl > li {
+	display: none;
+}
