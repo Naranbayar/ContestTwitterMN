@@ -928,24 +928,25 @@ def map(request):
     })
 
 def add(request):
+    q = Contest.all()
 
     return render(request, 'add.html', {
-        'data': '',
+        'data': q.get(),
         'tab' : 'add'
     })
 
 def add_contest(request):
-    if 'title' in request.GET:
-        message = 'You submitted: %r' % request.GET['title']
-    else:
-        message = 'You submitted nothing!'
 
     e = Contest(title=request.GET['title'],
                 contest_type="online",
                 approved_contest=False,
                 detail=request.GET['detail'])
-    e.contest_start_date = datetime.datetime.now().date()
     e.put()
+    
+    if 'title' in request.GET:
+        message = 'You submitted ' + request.GET['title']
+    else:
+        message = 'You submitted nothing!'
 
     return render(request, 'add.html', {
         'data': message,
