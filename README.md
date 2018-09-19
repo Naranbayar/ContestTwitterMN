@@ -1,5 +1,5 @@
 # ContestTwitterMN
-Tweet about upcoming programming contests from www.hackerrank.com/calendar/feed.rss
+Tweet a gnome every few hours and show upcoming programming contests from www.hackerrank.com/calendar/feed.rss
 
 ## Development:
 
